@@ -45,7 +45,7 @@ class ExampleApp < Sinatra::Base
 
       login_response = Faraday.put "#{settings.vault_url}/v1/#{auth_path}" do |req|
         req.headers['Content-Type'] = 'application/json'
-        req.body = { "role" => "webapp", "jwt" => jwt }.to_json
+        req.body = { "role" => "webapprole", "jwt" => jwt }.to_json
       end
 
       vault_token = JSON.parse(login_response.body)["auth"]["client_token"]
@@ -56,7 +56,7 @@ class ExampleApp < Sinatra::Base
       raise Exception.new "The vault token failed to be set during login"
     end
 
-    secrets_path = "secret/data/webapp/config"
+    secrets_path = "kv/webapp"
 
     # Ask for the secret at the path
     vault_response = Faraday.get "#{settings.vault_url}/v1/#{secrets_path}" do |req|
